@@ -36,4 +36,18 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get('/run-recommender', (req, res) => {
+  // Execute the Python script
+  exec('python recommender.py', (error, stdout, stderr) => {
+      if (error) {
+          console.error(`Error executing recommender.py: ${error}`);
+          return res.status(500).send('Internal Server Error');
+      }
+      console.log(`Python script output: ${stdout}`);
+      console.error(`Python script errors: ${stderr}`);
+      res.send('Python script executed successfully');
+  });
+});
+
+
 connectDB();
